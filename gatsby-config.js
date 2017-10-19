@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: '/rots-site',
   siteMetadata: {
     title: "Return of the Shadow",
     description: "Stuff",

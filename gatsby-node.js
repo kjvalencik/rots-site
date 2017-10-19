@@ -4,10 +4,11 @@ const path = require("path")
 const select = require(`unist-util-select`)
 const fs = require(`fs-extra`)
 
-const pageSize = 5
+const homepageSize = 5
+const paginationSize = 10
 
 function getNumPages(total) {
-  return Math.ceil(total / pageSize)
+  return Math.ceil((total - homepageSize) / paginationSize) + 1
 }
 
 function createHomepage(createPage, siteTitle, posts) {
@@ -18,7 +19,7 @@ function createHomepage(createPage, siteTitle, posts) {
     component: homepage,
     context: {
       siteTitle,
-      posts: posts.slice(0, pageSize),
+      posts: posts.slice(0, homepageSize),
       numPages: getNumPages(posts.length),
     },
   })
@@ -40,7 +41,7 @@ function createPagination(createPage, siteTitle, posts) {
   const page = path.resolve("./src/templates/page.js")
 
   _(posts)
-    .chunk(5)
+    .chunk(paginationSize)
     .slice(1)
     .each((chunk, i) => createPage({
       path: `/page/${i + 2}`,
